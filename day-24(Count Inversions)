@@ -1,0 +1,76 @@
+PROBLEM : Given an array of integers arr[]. Find the Inversion Count in the array.
+Two elements arr[i] and arr[j] form an inversion if arr[i] > arr[j] and i < j.
+
+Inversion Count: For an array, inversion count indicates how far (or close) the array is from being sorted. If the array is already sorted then the inversion count is 0.
+If an array is sorted in the reverse order then the inversion count is the maximum. 
+
+Examples:
+
+Input: arr[] = [2, 4, 1, 3, 5]
+Output: 3
+Explanation: The sequence 2, 4, 1, 3, 5 has three inversions (2, 1), (4, 1), (4, 3).
+Input: arr[] = [2, 3, 4, 5, 6]
+Output: 0
+Explanation: As the sequence is already sorted so there is no inversion count.
+Input: arr[] = [10, 10, 10]
+Output: 0
+Explanation: As all the elements of array are same, so there is no inversion count.
+Constraints:
+1 ≤ arr.size() ≤ 105
+1 ≤ arr[i] ≤ 104
+
+
+
+  SOLUTION : class Solution {
+  public:
+    // Function to count inversions in the array.
+    
+    long long merge(vector<int>& arr, int left,
+    int mid,int right){
+        vector <int> temp;
+        int i = left , j=mid+1;
+        long long inv = 0;
+        
+        while(i<= mid && j <=right){
+            if(arr[i] <= arr[j]){
+                temp.push_back(arr[i++]);
+            }
+            else{
+                temp.push_back(arr[j++]);
+                inv +=(mid-i+1);
+            }
+        }
+        
+        while (i <= mid) temp.push_back(arr[i++]);
+         while (j <= right) temp.push_back(arr[j++]);
+         
+         
+         
+        for(int k = left; k<= right;++k){
+            arr[k] = temp[k-left];
+        }
+        
+        return inv;
+        
+        
+    }
+    
+    long long mergeSort(vector<int> &arr, int left , int right){
+        long long inv=0;
+        if(left <right){
+            int mid = left + (right-left)/2;
+            inv += mergeSort(arr,left,mid);
+            inv += mergeSort(arr,mid+1,right);
+            inv += merge(arr,left,mid,right);
+    
+        }
+        
+        return inv;
+    
+    }
+    
+    int inversionCount(vector<int> &arr) {
+        // Your Code Here
+        return mergeSort(arr,0,arr.size() -1);
+    }
+};
