@@ -1,0 +1,72 @@
+PROBLEM : Given a sorted array arr[] and a target value, the task is to count triplets (i, j, k) of valid indices, such that arr[i] + arr[j] + arr[k] = target and i < j < k.
+
+Examples:
+
+Input: arr[] = [-3, -1, -1, 0, 1, 2], target = -2
+Output: 4
+Explanation: Four triplets that add up to -2 are:
+arr[0] + arr[3] + arr[4] = (-3) + 0 + (1) = -2
+arr[0] + arr[1] + arr[5] = (-3) + (-1) + (2) = -2
+arr[0] + arr[2] + arr[5] = (-3) + (-1) + (2) = -2
+arr[1] + arr[2] + arr[3] = (-1) + (-1) + (0) = -2
+Input: arr[] = [-2, 0, 1, 1, 5], target = 1
+Output: 0
+Explanation: There is no triplet whose sum is equal to 1. 
+Constraints:
+3 ≤ arr.size() ≤ 104
+-105 ≤ arr[i], target ≤ 105
+
+
+
+
+
+
+
+
+
+
+
+  SOLUTION :
+class Solution:
+    def countTriplets(self, arr, target):
+        # code here
+        n = len(arr)
+        count = 0
+        
+        for i in range(n-2):
+            left = i+1
+            right = n-1
+            
+            while left < right:
+                curr_sum = arr[i] + arr[left] +arr[right]
+                
+                if curr_sum == target:
+                    if arr[left] == arr[right]:
+                        total = right - left + 1
+                        count += (total *(total - 1)) //2
+                        break
+                    
+                    l_count = 1
+                    while left + 1 <= right and arr[left] == arr[left + 1]:
+                        left += 1
+                        l_count += 1
+        
+                    r_count = 1
+                    while right - 1 >= left and arr[right] == arr[right -1]:
+                        right -= 1
+                        r_count += 1
+                    
+                    count += l_count * r_count
+                    left += 1
+                    right -=1
+                
+                elif curr_sum < target:
+                     left += 1
+                else:
+                     right -= 1
+                     
+                     
+                     
+        return count
+                
+        
