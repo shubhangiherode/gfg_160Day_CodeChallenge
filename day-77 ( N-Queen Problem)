@@ -1,0 +1,59 @@
+
+class Solution {
+
+public :
+            vector<vector<int>> ans;
+        void solve(int col,int n,vector<int> &board,
+        vector<int> &row, vector<int> &upperDiagonal,vector<int>
+        &lowerDiagonal){
+            
+            if (col == n){
+                ans.push_back(board);
+                return;
+            }
+            
+            for (int r = 0; r <n; r++){
+                if (!row[r] && !lowerDiagonal[r+col]
+                && !upperDiagonal[n-1 + col - r]){
+                    
+                board[col] = r+1;
+                row[r] = lowerDiagonal[r + col] = 
+                upperDiagonal[n-1 + col - r] = 1;
+                
+                solve(col + 1,n,board,row,upperDiagonal,
+                lowerDiagonal);
+                    
+                row[r] = lowerDiagonal[r+col] = 
+                upperDiagonal[n-1 + col - r] = 0;
+                    
+                    
+                    
+                    
+                }
+            }
+            
+        }
+
+
+    vector<vector<int>> nQueen(int n) {
+        // code here
+        
+        ans.clear();
+        vector<int> board(n,0);
+        vector<int> row(n,0) , upperDiagonal(2*n - 1, 0),
+        lowerDiagonal(2*n - 1, 0);
+        
+        solve(0,n,board,row,upperDiagonal,lowerDiagonal);
+        
+        return ans;
+        
+        
+    }
+};
+
+
+
+
+
+
+
