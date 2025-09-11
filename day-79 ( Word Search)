@@ -1,0 +1,51 @@
+class Solution {
+  public:
+    bool isWordExist(vector<vector<char>>& mat, string& word) {
+        // Code here
+        
+        int n = mat.size(),m = mat[0].size();
+        
+        for (int i=0 ; i < n; i++){
+            for(int j=0 ; j < m; j++){
+                if(mat[i][j] == word[0] && 
+                dfs(mat,word,0,i,j,n,m)){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+        
+    }
+    
+    
+    private:
+        bool dfs(vector<vector<char>>&mat, string& word,
+        int idx, int x, int y,int n ,int m    ){
+            if (idx == word.size()) return true;
+            
+            
+            if (x < 0 || y <0 || x>=n || y >= m || 
+            mat[x][y] != word[idx]) return false;
+            
+            char temp = mat[x][y];
+            mat[x][y] = '#';
+            
+            bool found =dfs(mat, word, idx + 1, x +1,y,n,m) ||
+                        dfs(mat, word, idx + 1,x-1,y,n,m)   ||
+                        dfs(mat, word, idx + 1,x,y+1,n,m) ||
+                        dfs(mat, word, idx + 1,x,y-1,n,m   );
+       
+       
+       mat[x][y]  = temp;
+       return found;
+       
+        }
+    
+};
+
+
+
+
+
+
